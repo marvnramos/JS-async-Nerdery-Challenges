@@ -33,16 +33,19 @@ node solution.js name1 name2 name3
 */
 
 const validateUser = require('./validate-user');
+const { argv } = require('node:process');
 
-function solution() {
+function solution(names = []) {
     // YOUR SOLUTION GOES HERE
     // you get your 5 names here
-    const NAMES = ['John', 'Mary', 'Gabriel', 'Angie', 'Carlos'];
+    if (names.length === 0) {
+        names = ['John', 'Mary', 'Gabriel', 'Angie', 'Carlos'];
+    }
     const success = [];
     const failure = [];
 
     // iterate the names array and validate them with the method
-    const promises = NAMES.map(name => {
+    const promises = names.map(name => {
         return new Promise(
             async (resolve, reject) => {
                 try {
@@ -72,6 +75,10 @@ function solution() {
     });
 }
 
-solution()
-
+function argvSolution() {
+    const names = argv.slice(2);
+    solution(names);
+}
+// solution()
+argvSolution()
 
