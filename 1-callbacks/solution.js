@@ -44,9 +44,7 @@ const failure = [];
 function solution(names = []) {
     // YOUR SOLUTION GOES HERE
     // you get your 5 names here
-    if (names.length === 0) {
-        names = [...NAMES];
-    }
+    if (names.length === 0) names = NAMES;
 
     // iterate the names array and validate them with the method
     const promises = names.map(name => {
