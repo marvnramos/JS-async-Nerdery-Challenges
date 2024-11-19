@@ -20,16 +20,70 @@ Example:
 9. as extra challenge: add Promise.race() and Promise.any(), and try to get the idea of what happens
 */
 
-function solution() {
+const products = require('./products');
+const prices = require('./prices');
+
+function getId() {
+    return Number(String(Date.now()).slice(-2));
+}
+
+async function solution() {
     // YOUR SOLUTION GOES HERE
 
     // You generate your id value here
+    const id = getId();
+    try {
+        // You use Promise.all() here
+        // You use Promise.allSettled() here
+        // Log the results, or errors, here
+        const [product, price] = await Promise.all([products(id), prices(id)]);
+        const [productSettled, priceSettled] = await Promise.allSettled([products(id), prices(id)]);
 
-    // You use Promise.all() here
+        console.log('Promise.all():');
+        console.log({
+            id,
+            product,
+            price
+        });
 
-    // You use Promise.allSettled() here
+        console.log('Promise.allSettled():');
+        console.log({
+            id,
+            product: productSettled.value,
+            price: priceSettled.value
+        }
+        )
 
-    // Log the results, or errors, here
+        const result = await Promise.any([products(id), prices(id)]);
+        console.log('Promise.any():');
+        if (typeof result === 'string') {
+            console.log({
+                id,
+                product: result
+            });
+        } else {
+            console.log({
+                id,
+                price: result
+            });
+        }
+
+        const resultRace = await Promise.race([products(id), prices(id)]);
+        console.log('Promise.race():');
+        if (typeof resultRace === 'string') {
+            console.log({
+                id,
+                product: resultRace
+            });
+        } else {
+            console.log({
+                id,
+                price: resultRace
+            });
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 solution()
