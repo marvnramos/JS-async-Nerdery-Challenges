@@ -42,8 +42,20 @@ function solution(names = []) {
     // YOUR SOLUTION GOES HERE
     // you get your 5 names here
     if (names.length === 0) { names = NAMES };
+    let counter = 0;
     const success = [];
     const failure = [];
+
+    const hasFinished = () => {
+        if (counter === names.length) {
+            console.log('Success\n');
+            success.forEach(succ => console.log(succ));
+
+            console.log('\nFailure\n');
+            failure.forEach(fail => console.log(fail));
+        }
+    }
+
     // iterate the names array and validate them with the method
     names.forEach(name => {
         validateUser(name, (err, data) => {
@@ -52,18 +64,12 @@ function solution(names = []) {
             } else {
                 success.push(`id: ${data.id}\nname ${data.name}`);
             }
-
+            counter++;
+            // log the final result
+            hasFinished()
         })
     });
 
-    // log the final result
-    setTimeout(() => {
-        console.log('Success\n');
-        success.forEach(succ => console.log(succ));
-
-        console.log('\nFailure\n');
-        failure.forEach(fail => console.log(fail));
-    }, 300);
 }
 
 function argvSolution() {
