@@ -32,7 +32,6 @@ node solution.js name1 name2 name3
 ** give a look to node.js util.promisify, avoid to alter the validate-user.file **
 */
 
-const { Console } = require('node:console');
 const validateUser = require('./validate-user');
 const { argv } = require('node:process');
 const util = require('util')
@@ -44,47 +43,37 @@ const failure = [];
 function solution(names = []) {
     // YOUR SOLUTION GOES HERE
     // you get your 5 names here
-    if (names.length === 0) names = NAMES;
+    if (names.length === 0) { names = NAMES };
 
     // iterate the names array and validate them with the method
-    const promises = names.map(name => {
-        return new Promise(
-            async (resolve, reject) => {
-                try {
-                    validateUser(name, (err, data) => {
-                        if (err) {
-                            failure.push(err.message);
-                            resolve();
-                        } else {
-                            success.push(`id: ${data.id}\nname: ${data.name}`);
-                            resolve();
-                        }
-                    })
-                } catch (err) {
-                    reject(err);
-                }
+    names.forEach(name => {
+        validateUser(name, (err, data) => {
+            if (err) {
+                failure.push(err.message);
+            } else {
+                success.push(`id: ${data.id}\nname ${data.name}`);
             }
-        );
+
+        })
     });
 
     // log the final result
-    Promise.all(promises).then(() => {
+    setTimeout(() => {
         console.log('Success\n');
         success.forEach(succ => console.log(succ));
 
         console.log('\nFailure\n');
         failure.forEach(fail => console.log(fail));
-    });
+    }, 300);
 }
 
 function argvSolution() {
     const names = argv.slice(2);
-    // solution(names);
-    promisifySolution(names);
+    solution(names);
 }
 
-function promisifySolution(names) {
-    if (names.length === 0) names = NAMES;
+function promisifySolution(names = []) {
+    if (names.length === 0) { names = NAMES };
 
     const validateUserPromisified = util.promisify(validateUser);
     const promises = names.map(name => {
@@ -101,6 +90,6 @@ function promisifySolution(names) {
         failure.forEach(fail => console.log(fail));
     });
 }
-// solution()
-argvSolution()
+solution()
+// argvSolution()
 // promisifySolution()

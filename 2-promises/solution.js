@@ -28,8 +28,8 @@ const firstnames = require('./firstnames');
 
 function getRandomId() {
     const random = Math.random();
-    if (random < 0.5) return '❌';
-    const id = Math.floor(Math.random() * 100)
+    if (random < 0.5) { return '❌' };
+    const id = Math.floor(Math.random() * 101)
     return id
 }
 
@@ -48,9 +48,10 @@ function solution() {
         })
         .then((name) => {
             firstname = name
+            console.log(`fullname: ${firstname} ${lastname}`)
         })
         .catch((error) => console.error(error))
-        .finally(() => console.log(`fullname: ${firstname} ${lastname}`))
+        .finally(() => console.log('Promise chain finished'))
 }
 
 solution()
