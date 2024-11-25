@@ -37,14 +37,13 @@ const { argv } = require('node:process');
 const util = require('util')
 
 const NAMES = ['John', 'Mary', 'Gabriel', 'Angie', 'Carlos'];
-const success = [];
-const failure = [];
 
 function solution(names = []) {
     // YOUR SOLUTION GOES HERE
     // you get your 5 names here
     if (names.length === 0) { names = NAMES };
-
+    const success = [];
+    const failure = [];
     // iterate the names array and validate them with the method
     names.forEach(name => {
         validateUser(name, (err, data) => {
@@ -74,6 +73,8 @@ function argvSolution() {
 
 function promisifySolution(names = []) {
     if (names.length === 0) { names = NAMES };
+    const success = [];
+    const failure = [];
 
     const validateUserPromisified = util.promisify(validateUser);
     const promises = names.map(name => {
